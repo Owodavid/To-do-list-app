@@ -1,29 +1,4 @@
 import streamlit as st
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-import io
-
-def generate_pdf(todo_dict):
-    buffer = io.BytesIO()
-    c = canvas.Canvas(buffer, pagesize=letter)
-    width, height = letter
-
-    c.setFont("Work-Sans", 17)
-    c.drawString(100, height - 50, "Your To-Do List")
-
-    c.setFont("Work-Sans", 11)
-    y = height - 100
-    for deadline, task in todo_dict.items():
-        if y < 50:
-            c.showPage()
-            y = height - 50
-        c.drawString(60, y, f"- {deadline}: {task}")
-        y -= 20
-
-    c.save()
-    buffer.seek(0)
-    return buffer
-
 
 # Title and subtitle
 st.title("📝 To-Do List App")
@@ -57,16 +32,6 @@ if st.session_state.todo_list:
             st.rerun()
 else:
     st.info("Your list is empty!")
-
-if st.session_state.todo_list:
-    pdf_buffer = generate_pdf(st.session_state.todo_list)
-
-    st.download_button(
-        label="📄 Generate PDF",
-        data=pdf_buffer,
-        file_name="todo_list.pdf",
-        mime="application/pdf"
-    )
 
 # Clear all button
 if st.button("🗑️ Clear Entire List"):
