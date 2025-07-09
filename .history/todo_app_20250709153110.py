@@ -27,7 +27,7 @@ def generate_pdf(todo_dict):
 
 # Title and subtitle
 st.title("📝 To-Do List App")
-st.subheader("A simple task manager built with Streamlit")
+st.subheader("A simple task manager built with Streamlit edit")
 
 # Create a placeholder dictionary to hold tasks (use session state)
 if "todo_list" not in st.session_state:
