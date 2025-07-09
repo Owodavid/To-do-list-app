@@ -8,10 +8,10 @@ def generate_pdf(todo_dict):
     c = canvas.Canvas(buffer, pagesize=letter)
     width, height = letter
 
-    c.setFont("Work-Sans", 17)
+    c.setFont("Times-Roman", 17)
     c.drawString(100, height - 50, "Your To-Do List")
 
-    c.setFont("Work-Sans", 11)
+    c.setFont("Times-Roman", 11)
     y = height - 100
     for deadline, task in todo_dict.items():
         if y < 50:
@@ -58,17 +58,19 @@ if st.session_state.todo_list:
 else:
     st.info("Your list is empty!")
 
-if st.session_state.todo_list:
-    pdf_buffer = generate_pdf(st.session_state.todo_list)
+col1, col2, col3 = st.columns([2, 6, 3])  # adjust ratios as needed
 
-    st.download_button(
-        label="📄 Generate PDF",
-        data=pdf_buffer,
-        file_name="todo_list.pdf",
-        mime="application/pdf"
-    )
+with col1:
+    if st.button("🗑️ Clear List"):
+        st.session_state.todo_list.clear()
+        st.success("List cleared!")
 
-# Clear all button
-if st.button("🗑️ Clear Entire List"):
-    st.session_state.todo_list.clear()
-    st.rerun()
+with col3:
+    if st.session_state.todo_list:
+        pdf_buffer = generate_pdf(st.session_state.todo_list)
+        st.download_button(
+            label="📄Generate PDF",
+            data=pdf_buffer,
+            file_name="todo_list.pdf",
+            mime="application/pdf"
+        )
